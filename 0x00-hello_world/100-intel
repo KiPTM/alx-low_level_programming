@@ -1,2 +1,2 @@
 #!/bin/bash
-CFILE="main.c"; output_file="${CFILE%.*}.s"; gcc -S -masm=intel "$CFILE" -o "$output_file"
+gcc -S -masm=intel $CFILE
