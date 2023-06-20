@@ -1,3 +1,4 @@
+#include <unistd.h>
 #include "main.h"
 
 int _putchar(char c)
@@ -17,5 +18,5 @@ int main(void)
 	_putchar('r');
 	_putchar('\n');
 
-	return (0);
+	return 0;
 }
