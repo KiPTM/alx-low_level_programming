@@ -1,18 +1,10 @@
-#ifndef MAIN_H
-#define MAIN_H
-
-int _putchar(char c);
-
-#endif /* MAIN_H */
 #include "main.h"
 
-/**
- * main - Entry point
- *
- * Description: Prints "_putchar" followed by a new line
- *
- * Return: Always 0 (Success)
- */
+int _putchar(char c)
+{
+	return write(1, &c, 1);
+}
+
 int main(void)
 {
 	_putchar('_');
