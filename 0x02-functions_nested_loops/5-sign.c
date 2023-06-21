@@ -6,6 +6,7 @@
  * Return: 1 and prints + if n is greater than zero
  * 0 and prints 0 if n is zero
  * -1 and prints - if n is less than zero
+ *  Written by Tuwei
  */
 int print_sign(int n)
 {
