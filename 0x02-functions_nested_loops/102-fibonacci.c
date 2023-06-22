@@ -5,7 +5,7 @@
  *        separated comma then a space.
  *
  * Return: Always 0.
- '*/
+ */
 int main(void)
 {
 	int count;
