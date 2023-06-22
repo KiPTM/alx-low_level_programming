@@ -1,6 +1,6 @@
 /*
  * File: 101-natural.c
- * Auth: vincent kip
+ * Auth: Tuwei
  */
 
 #include <stdio.h>
