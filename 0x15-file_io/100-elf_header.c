@@ -267,29 +267,33 @@ void close_elf(int elf)
  */
 int main(int __attribute__((__unused__)) argc, char *argv[])
 {
-    int file_descriptor, read_result;
     Elf64_Ehdr *header;
+    int file_descriptor, read_result;
 
-    if (argc != 2) {
+    if (argc != 2)
+    {
         dprintf(STDERR_FILENO, "Usage: %s elf_filename\n", argv[0]);
         exit(98);
     }
 
     file_descriptor = open(argv[1], O_RDONLY);
-    if (file_descriptor == -1) {
+    if (file_descriptor == -1)
+    {
         dprintf(STDERR_FILENO, "Error: Unable to open file %s\n", argv[1]);
         exit(98);
     }
 
     header = malloc(sizeof(Elf64_Ehdr));
-    if (header == NULL) {
+    if (header == NULL)
+    {
         close(file_descriptor);
         dprintf(STDERR_FILENO, "Error: Memory allocation failed\n");
         exit(98);
     }
 
     read_result = read(file_descriptor, header, sizeof(Elf64_Ehdr));
-    if (read_result == -1) {
+    if (read_result == -1)
+    {
         free(header);
         close(file_descriptor);
         dprintf(STDERR_FILENO, "Error: Failed to read file %s\n", argv[1]);
@@ -311,3 +315,4 @@ int main(int __attribute__((__unused__)) argc, char *argv[])
     close(file_descriptor);
     return 0;
 }
+
