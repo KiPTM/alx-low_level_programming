@@ -263,47 +263,51 @@ void close_elf(int elf)
  * @argv: An array of pointers to the arguments.
  * Return: 0 on success.
  * Description: If the file is not an ELF File or
- * the function fails - exit code 98.
+ * the function fails - exit code 98
  */
 int main(int __attribute__((__unused__)) argc, char *argv[])
 {
-	Elf64_Ehdr *header;
-	int o, r;
+    int file_descriptor, read_result;
+    Elf64_Ehdr *header;
 
-	o = open(argv[1], O_RDONLY);
-	if (o == -1)
-	{
-		dprintf(STDERR_FILENO, "Error: Can't read file %s\n", argv[1]);
-		exit(98);
-	}
-	header = malloc(sizeof(Elf64_Ehdr));
-	if (header == NULL)
-	{
-		close_elf(o);
-		dprintf(STDERR_FILENO, "Error: Can't read file %s\n", argv[1]);
-		exit(98);
-	}
-	r = read(o, header, sizeof(Elf64_Ehdr));
-	if (r == -1)
-	{
-		free(header);
-		close_elf(o);
-		dprintf(STDERR_FILENO, "Error: `%s`: No such file\n", argv[1]);
-		exit(98);
-	}
+    if (argc != 2) {
+        dprintf(STDERR_FILENO, "Usage: %s elf_filename\n", argv[0]);
+        exit(98);
+    }
 
-	check_elf(header->e_ident);
-	printf("ELF Header:\n");
-	print_magic(header->e_ident);
-	print_class(header->e_ident);
-	print_data(header->e_ident);
-	print_version(header->e_ident);
-	print_osabi(header->e_ident);
-	print_abi(header->e_ident);
-	print_type(header->e_type, header->e_ident);
-	print_entry(header->e_entry, header->e_ident);
+    file_descriptor = open(argv[1], O_RDONLY);
+    if (file_descriptor == -1) {
+        dprintf(STDERR_FILENO, "Error: Unable to open file %s\n", argv[1]);
+        exit(98);
+    }
 
-	free(header);
-	close_elf(o);
-	return (0);
+    header = malloc(sizeof(Elf64_Ehdr));
+    if (header == NULL) {
+        close(file_descriptor);
+        dprintf(STDERR_FILENO, "Error: Memory allocation failed\n");
+        exit(98);
+    }
+
+    read_result = read(file_descriptor, header, sizeof(Elf64_Ehdr));
+    if (read_result == -1) {
+        free(header);
+        close(file_descriptor);
+        dprintf(STDERR_FILENO, "Error: Failed to read file %s\n", argv[1]);
+        exit(98);
+    }
+
+    check_elf(header->e_ident);
+    printf("ELF Header:\n");
+    print_magic(header->e_ident);
+    print_class(header->e_ident);
+    print_data(header->e_ident);
+    print_version(header->e_ident);
+    print_osabi(header->e_ident);
+    print_abi(header->e_ident);
+    print_type(header->e_type, header->e_ident);
+    print_entry(header->e_entry, header->e_ident);
+
+    free(header);
+    close(file_descriptor);
+    return 0;
 }
